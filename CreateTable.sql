@@ -38,6 +38,7 @@ FOREIGN KEY (username) REFERENCES Customer(username)
 CREATE TABLE Item (
 item_id INT NOT NULL,
 item_name TEXT NOT NULL,
+category INT NOT NULL,
 item_desc TEXT NOT NULL,
 stock INT NOT NULL,
 price FLOAT NOT NULL,
