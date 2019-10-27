@@ -36,13 +36,13 @@ FOREIGN KEY (username) REFERENCES Customer(username)
 
 /* Item */
 CREATE TABLE Item (
-item_id INT NOT NULL,
+item_id INT IDENTITY(1, 1) NOT NULL,
 item_name TEXT NOT NULL,
 category INT NOT NULL,
 item_desc TEXT NOT NULL,
 stock INT NOT NULL,
 price FLOAT NOT NULL,
-photo BLOB NOT NULL,
+photo TEXT,
 PRIMARY KEY (item_id)
 );
 
