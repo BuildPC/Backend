@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import net.proteanit.sql.DbUtils;
 
@@ -25,6 +26,7 @@ public class SQLUtilities {
     
     public static ResultSet getUsersSet;
     public static ResultSet getUsersData;
+    protected static ResultSet getItemData;
     public static Connection DBConnection(){
         Connection conn = null;
         String url = "jdbc:mysql://cs320project-1.duckdns.org/cs320DB";
@@ -59,7 +61,7 @@ public class SQLUtilities {
             rs=pst.executeQuery(sql);
             UserTable.setModel(DbUtils.resultSetToTableModel(rs));
         }catch(Exception e){
-            
+             JOptionPane.showMessageDialog(null,e );
         }
     }
     protected static void Update_tableItem(JTable UserTable){
@@ -73,7 +75,7 @@ public class SQLUtilities {
             rs=pst.executeQuery(sql);
             UserTable.setModel(DbUtils.resultSetToTableModel(rs));
         }catch(Exception e){
-            
+            JOptionPane.showMessageDialog(null,e );
         }
     }
     
@@ -153,20 +155,8 @@ public class SQLUtilities {
     
     
     }
-    public static void findElse(String username){
-        
-        String sql="Select phone,caddress where Customer.user_name="+username+"From Customer";
-        
-    }
-    
 
-
-
-
-
-    
-      
-      public static void AddItem(String itemName,String itemDesc,int stock,float price,int category,Connection conn,byte[] photo) throws SQLException{
+      public static void AddItem(String itemName,String itemDesc,int stock,float price,int category,Connection conn,String photo) throws SQLException{
           
          
           
@@ -178,7 +168,7 @@ public class SQLUtilities {
                         item_id.setString(2, itemDesc);
                         item_id.setInt(3,stock);
                         item_id.setFloat(4, price);
-                        item_id.setBytes(5, photo);
+                        item_id.setString(5, photo);
                         item_id.setInt(6,category);
                        
                         item_id.addBatch();
@@ -186,7 +176,61 @@ public class SQLUtilities {
           
           
       }
+      
+      public static void UpdateStock(String itemname,int newstock,int currentstock, Connection conn){
+           int finalStock=newstock+currentstock;
+         
+          String updateS ="UPDATE Item SET stock = '"+finalStock+"' WHERE item_name = '"+itemname+"'";
+          try{
+          PreparedStatement all = conn.prepareStatement(updateS);
+          all.execute();
+          conn.commit();
+          
+          }catch(SQLException ex){
+              System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+          }
+          
+      }
      
-
+public static ArrayList<ArrayList<String>> getItemData(Connection conn, String username){
+        ArrayList<ArrayList<String>> res = new ArrayList<ArrayList<String>>();
+        System.out.println(username);
+        
+       String sql="Select C.category,C.item_desc,C.price From Item C WHERE C.item_name ='"+username+"'";
+        
+        try{
+        PreparedStatement getItem = conn.prepareStatement(sql);
+        
+        getItemData = getItem.executeQuery();
+       
+        
+        while (getItemData.next()){
+            String category = getItemData.getString("category");
+            String desc = getItemData.getString("item_desc");
+            String price = getItemData.getString("price");
+            res.add(new ArrayList<String>());
+            ItemShow.ItemDesc.setText("Item description : "+desc);
+            ItemShow.Category.setText("Category number : "+category);
+            ItemShow.Price.setText("Item price : "+ price);
+            
+//            res.get(res.size()-1).add(username1);
+//            res.get(res.size()-1).add(fname); 
+            
+        }
+      //  Frame.UserTable.setModel(DbUtils.resultSetToTableModel(getUsersSet));
+        
+        }catch(SQLException ex){
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        
+        
+        return res;
+    
+    
+    }
     
 }
