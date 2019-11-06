@@ -1,6 +1,3 @@
-
-
-
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.io.ByteArrayOutputStream;
@@ -53,8 +50,8 @@ public class AddItem extends javax.swing.JFrame {
         DescField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         ItemCombo = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        AddButton = new javax.swing.JButton();
+        uploadButton = new javax.swing.JButton();
         Pic = new javax.swing.JLabel();
         FileLabel = new javax.swing.JLabel();
 
@@ -98,19 +95,19 @@ public class AddItem extends javax.swing.JFrame {
         ItemCombo.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         ItemCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MotherBoard", "CPU", "GPU", "RAM", "SSD", "HDD", "Power Supply", "Keyboard", "Mouse", " " }));
 
-        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jButton1.setText("ADD");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        AddButton.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        AddButton.setText("ADD");
+        AddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                AddButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jButton2.setText("Upload");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        uploadButton.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        uploadButton.setText("Upload");
+        uploadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                uploadButtonActionPerformed(evt);
             }
         });
 
@@ -162,12 +159,12 @@ public class AddItem extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel6)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jButton2)))
+                                        .addComponent(uploadButton)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE))
                             .addComponent(Pic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(48, 48, 48))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -196,7 +193,7 @@ public class AddItem extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel6)
-                                .addComponent(jButton2)))
+                                .addComponent(uploadButton)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(FileLabel)
                         .addGap(18, 18, 18)
@@ -206,7 +203,7 @@ public class AddItem extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(ItemCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54))
         );
 
@@ -229,7 +226,7 @@ public class AddItem extends javax.swing.JFrame {
     }//GEN-LAST:event_ItemFieldActionPerformed
     protected int Id;
     protected String itemName;
-    protected float price;
+    protected double price;
     protected String description;
     protected int stock;
     
@@ -248,76 +245,51 @@ public class AddItem extends javax.swing.JFrame {
        
    
     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
-        switch(ItemCombo.getSelectedItem().toString()){
-            case "MotherBoard":
-                Id=0;
-                break;
-            case "CPU":
-                Id=1;
-                break;
-            case "GPU":
-                Id=2;
-                break;
-            case "SSD":
-                Id=3;
-                break;
-            case "HDD":
-                Id=4;
-                break;
-            case "RAM":
-                Id=5;
-                break;
-            case "Power Supply":
-                Id=6;
-                break;
-            case "Mouse":
-                Id=7;
-            case "Keyboard":
-                Id=8;
-                break;
-           
-        }
-        
+    private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
+
+        try{
         stock = Integer.parseInt(StockField.getText());
         itemName = ItemField.getText();
         description = DescField.getText();
-        price = Float.parseFloat(PriceField.getText());
         
+        price = SomeStuff.properfloat(PriceField.getText());
+        
+        }catch(NumberFormatException nfe){
+            JOptionPane.showMessageDialog(jPanel1,"Check your data");
+            System.out.println(nfe.getMessage());
+        }
+         String testPhoto="testLink";
       
         try {
-            SQLUtilities.AddItem(itemName,description,stock,price,Id,Frame.conn,photo);
+            SQLUtilities.AddItem(itemName,description,stock,(float)price,SomeStuff.categorizer(ItemCombo.getSelectedItem().toString()),Frame.conn,testPhoto);
             Frame.conn.commit();
+            JOptionPane.showMessageDialog(jPanel1,"Item added");
         } catch (SQLException ex) {
             Logger.getLogger(AddItem.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(jPanel1,"Check your data");
         }
-       
+        
         System.out.println("Object added");
-        
-        
-        
-        
-        
-        
-        //
+       
         close();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_AddButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadButtonActionPerformed
         JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(null);
+        
+        chooser.showSaveDialog(jPanel1);
        // chooser.changeToParentDirectory();
        
         
        
         file = chooser.getSelectedFile();
+        try{
         Pic.setIcon(new ImageIcon(file.toString()));
         filename = file.getAbsolutePath();
         ss=filename;
         FileLabel.setText(filename);
+       
         
-        try{
             File image = new File (filename);
             FileInputStream fis = new FileInputStream(image);
             ByteArrayOutputStream bos =new ByteArrayOutputStream();
@@ -327,17 +299,16 @@ public class AddItem extends javax.swing.JFrame {
                 }
         photo=bos.toByteArray();
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null,e);
+            JOptionPane.showMessageDialog(jPanel1,"File not selected");
     }
-        
-        
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
+      
+    }//GEN-LAST:event_uploadButtonActionPerformed
 
    
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddButton;
     private javax.swing.JTextField DescField;
     private javax.swing.JLabel FileLabel;
     private javax.swing.JComboBox<String> ItemCombo;
@@ -345,8 +316,6 @@ public class AddItem extends javax.swing.JFrame {
     private javax.swing.JLabel Pic;
     private javax.swing.JTextField PriceField;
     private javax.swing.JTextField StockField;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -355,6 +324,7 @@ public class AddItem extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton uploadButton;
     // End of variables declaration//GEN-END:variables
 byte[] photo = null;
 String filename ="";
