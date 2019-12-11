@@ -45,6 +45,7 @@ public class ItemInfo extends javax.swing.JPanel {
         realCurrentValue = new javax.swing.JButton();
         RefreshButton = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(204, 204, 0));
         setMaximumSize(new java.awt.Dimension(1095, 720));
         setMinimumSize(new java.awt.Dimension(1095, 720));
 
@@ -239,7 +240,7 @@ public class ItemInfo extends javax.swing.JPanel {
         int index1[] = ItemTable.getSelectedRows();
 
         Object[] row1 = new Object[3];
-        ItemShow itemshow = new ItemShow();
+        
 
         for(int i =0;i<index1.length;i++){
             row1[0]= Table1.getValueAt(index1[i],0);
@@ -251,7 +252,7 @@ public class ItemInfo extends javax.swing.JPanel {
 
         int currentStock;
         int addStock;
-        addStock = Integer.parseInt(realAddStock.getText());
+        addStock = (int)properStock(realAddStock.getText());
         currentStock=(int)row1[2];
 
         SQLUtilities.UpdateStock(tmp, addStock,currentStock, Frame.conn);
@@ -260,7 +261,9 @@ public class ItemInfo extends javax.swing.JPanel {
         } catch (SQLException ex) {
             Logger.getLogger(ItemInfo.class.getName()).log(Level.SEVERE, null, ex);
         }
+        SQLUtilities.Update_tableItem(ItemTable);
         JOptionPane.showMessageDialog(this,"Stock updated");
+        
 
     }//GEN-LAST:event_realCurrentValueActionPerformed
 
@@ -274,7 +277,14 @@ public class ItemInfo extends javax.swing.JPanel {
          AddItem items = new AddItem();
          items.setVisible(true);
     }//GEN-LAST:event_AddItemButtonActionPerformed
-
+protected static int properStock(String a){
+         String replace = a.replace(".","");
+         String replace1 = replace.replace(",", ".");
+         String replace2 = replace1.replace("-","");
+         int tmp = Integer.parseInt(replace2);
+         return tmp;
+   
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddItemButton;

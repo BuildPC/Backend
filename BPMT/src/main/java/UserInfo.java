@@ -39,6 +39,7 @@ public class UserInfo extends javax.swing.JPanel {
         Export_Rows = new javax.swing.JButton();
         RefreshUser = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(204, 204, 0));
         setMaximumSize(new java.awt.Dimension(1095, 720));
         setMinimumSize(new java.awt.Dimension(1095, 720));
 

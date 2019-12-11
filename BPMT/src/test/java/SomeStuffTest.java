@@ -14,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Denizcan
  */
 public class SomeStuffTest {
-    SomeStuff stuff;
+    AddItem stuff;
     public SomeStuffTest() {
     }
     
     @BeforeEach
     public void setUp() {
-        stuff = new SomeStuff();
+        stuff = new AddItem();
     }
     
     @AfterEach
@@ -51,4 +51,10 @@ public class SomeStuffTest {
         assertEquals(2747.04,finall);
     }
     
+    public void testProperfloat3() {
+        String test = "-2.747,04";
+        double finall = 0.0f;
+        finall = stuff.properfloat(test);
+        assertEquals(2747.04,finall);
+    }
 }

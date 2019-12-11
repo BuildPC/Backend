@@ -57,9 +57,7 @@ public class AddItem extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
-        setMaximumSize(new java.awt.Dimension(834, 559));
         setMinimumSize(new java.awt.Dimension(843, 559));
-        setPreferredSize(new java.awt.Dimension(843, 559));
         setSize(new java.awt.Dimension(843, 559));
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 0));
@@ -93,7 +91,7 @@ public class AddItem extends javax.swing.JFrame {
         jLabel7.setText("Item Category");
 
         ItemCombo.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        ItemCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MotherBoard", "CPU", "GPU", "RAM", "SSD", "HDD", "Power Supply", "Keyboard", "Mouse", " " }));
+        ItemCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MotherBoard", "CPU", "GPU", "RAM", "SSD", "HDD", "Power Supply", "Keyboard", "Mouse", "Case" }));
 
         AddButton.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         AddButton.setText("ADD");
@@ -252,7 +250,7 @@ public class AddItem extends javax.swing.JFrame {
         itemName = ItemField.getText();
         description = DescField.getText();
         
-        price = SomeStuff.properfloat(PriceField.getText());
+        price = properfloat(PriceField.getText());
         
         }catch(NumberFormatException nfe){
             JOptionPane.showMessageDialog(jPanel1,"Check your data");
@@ -261,7 +259,8 @@ public class AddItem extends javax.swing.JFrame {
          String testPhoto="testLink";
       
         try {
-            SQLUtilities.AddItem(itemName,description,stock,(float)price,SomeStuff.categorizer(ItemCombo.getSelectedItem().toString()),Frame.conn,testPhoto);
+            System.out.println(SQLUtilities.currenid(Frame.conn));
+            SQLUtilities.AddItem(itemName,description,stock,(float)price,categorizer(ItemCombo.getSelectedItem().toString()),Frame.conn,testPhoto);
             Frame.conn.commit();
             JOptionPane.showMessageDialog(jPanel1,"Item added");
         } catch (SQLException ex) {
@@ -280,10 +279,25 @@ public class AddItem extends javax.swing.JFrame {
         chooser.showSaveDialog(jPanel1);
        // chooser.changeToParentDirectory();
        
-        
-       
+        int tmp = SQLUtilities.currenid(Frame.conn)+1;
+        System.out.println("tmp = "+tmp);
+        File renFile = new File(tmp+".jpg");
         file = chooser.getSelectedFile();
+         System.out.println(file.getName());
+         System.out.println("renfile"+renFile.getName());
+        file.renameTo(renFile);
+        
+        
+//        if(file.renameTo(renFile)){
+//            System.out.println(file.getName());
+//        }
+//        else{System.out.println("operation failed");}
+//        
+        System.out.println(file.getName());
         try{
+            
+            Files.copy(file.toPath(), renFile.toPath());
+            
         Pic.setIcon(new ImageIcon(file.toString()));
         filename = file.getAbsolutePath();
         ss=filename;
@@ -291,6 +305,7 @@ public class AddItem extends javax.swing.JFrame {
        
         
             File image = new File (filename);
+            
             FileInputStream fis = new FileInputStream(image);
             ByteArrayOutputStream bos =new ByteArrayOutputStream();
             byte[]buf = new byte[1024];
@@ -300,11 +315,60 @@ public class AddItem extends javax.swing.JFrame {
         photo=bos.toByteArray();
         }catch(Exception e){
             JOptionPane.showMessageDialog(jPanel1,"File not selected");
+            JOptionPane.showMessageDialog(jPanel1,e.getMessage());
     }
       
     }//GEN-LAST:event_uploadButtonActionPerformed
 
+   public static int categorizer(String cat){
+        int Id;
+        switch(cat){
+            case "MotherBoard":
+                Id=0;
+                break;
+            case "CPU":
+                Id=1;
+                break;
+            case "GPU":
+                Id=2;
+                break;
+            case "SSD":
+                Id=3;
+                break;
+            case "HDD":
+                Id=4;
+                break;
+            case "RAM":
+                Id=5;
+                break;
+            case "Power Supply":
+                Id=6;
+                break;
+            case "Mouse":
+                Id=7;
+            case "Keyboard":
+                Id=8;
+                break;
+            case "Case":
+                Id=9;
+            default:
+                Id=-1;
+                
+        }
+        return Id;
    
+        
+    }
+     protected static double properfloat(String a){
+         String replace = a.replace(".","");
+         String replace1 = replace.replace(",", ".");
+         String replace2 = replace1.replace("-","");
+         double tmp = 0.0;
+         tmp = Double.valueOf(replace2);
+            return tmp;
+   
+    }
+    
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -329,5 +393,7 @@ public class AddItem extends javax.swing.JFrame {
 byte[] photo = null;
 String filename ="";
 public File file;
+
 protected String ss;
+
 }
