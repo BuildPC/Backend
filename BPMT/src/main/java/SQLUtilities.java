@@ -52,8 +52,8 @@ public class SQLUtilities {
     }
     protected static void Update_table(JTable UserTable){
         try{
-            ResultSet rs=null;
-            PreparedStatement pst= null;
+            ResultSet rs = null;
+            PreparedStatement pst = null;
             
             
             String sql ="select username,first_name,last_name from Customer";
@@ -66,8 +66,8 @@ public class SQLUtilities {
     }
     protected static void Update_tableItem(JTable UserTable){
         try{
-            ResultSet rs=null;
-            PreparedStatement pst= null;
+            ResultSet rs = null;
+            PreparedStatement pst = null;
             
             
             String sql ="select item_id,item_name,stock from Item";
@@ -79,8 +79,8 @@ public class SQLUtilities {
         }
     }
     
-    public static ArrayList<ArrayList<String>> getUsers(Connection conn){
-        ArrayList<ArrayList<String>> res = new ArrayList<ArrayList<String>>();
+    public static void getUsers(Connection conn){
+        
         
         
         String sql = "SELECT username,first_name FROM Customer";
@@ -94,9 +94,7 @@ public class SQLUtilities {
         while (getUsersSet.next()){
             String username = getUsersSet.getString("username");
             String fname = getUsersSet.getString("first_name");
-            res.add(new ArrayList<String>());
-            res.get(res.size()-1).add(username);
-            res.get(res.size()-1).add(fname); 
+            
             
         }
       //  Frame.UserTable.setModel(DbUtils.resultSetToTableModel(getUsersSet));
@@ -107,22 +105,15 @@ public class SQLUtilities {
             System.out.println("VendorError: " + ex.getErrorCode());
         }
         
-        for(ArrayList<String> arr : res){
-            for(String st : arr){
-           //     Frame.UserTable.
-                System.out.print(st + " ");
-            }
-            System.out.println();
-        }
-        
-        return res;
+       
+       
         
         
 
     }
-    public static ArrayList<ArrayList<String>> getUserData(Connection conn, String username){
-        ArrayList<ArrayList<String>> res = new ArrayList<ArrayList<String>>();
-        System.out.println(username);
+    public static void getUserData(Connection conn, String username){
+        
+       
         
        String sql="Select C.phone,C.caddress From Customer C WHERE C.username ='"+username+"'";
         
@@ -135,14 +126,12 @@ public class SQLUtilities {
         while (getUsersData.next()){
             String username1 = getUsersData.getString("phone");
             String fname = getUsersData.getString("caddress");
-            res.add(new ArrayList<String>());
             UserEdit.userphoneLabel.setText("Phone number : "+username1);
             UserEdit.adresLabel.setText("Address : "+fname);
-            res.get(res.size()-1).add(username1);
-            res.get(res.size()-1).add(fname); 
+             
             
         }
-      //  Frame.UserTable.setModel(DbUtils.resultSetToTableModel(getUsersSet));
+     
         
         }catch(SQLException ex){
             System.out.println("SQLException: " + ex.getMessage());
@@ -151,14 +140,12 @@ public class SQLUtilities {
         }
         
         
-        return res;
+       
     
     
     }
 
       public static void AddItem(String itemName,String itemDesc,int stock,float price,int category,Connection conn,String photo) throws SQLException{
-          
-         
           
           String addItem = "INSERT INTO Item (item_name,item_desc,stock,price,photo,category) VALUES (?,?,?,?,?,?)";
                         
@@ -193,10 +180,46 @@ public class SQLUtilities {
           }
           
       }
+      
+      
+      
+      
+      
+      
+   public static int currenid(Connection conn){
+       String sql="SELECT AUTO_INCREMENT\n" +
+"FROM information_schema.tables\n" +
+"WHERE table_name = 'table_name";
+       
+       try{
+        PreparedStatement getItem = conn.prepareStatement(sql);
+        
+        
+        getItemData = getItem.executeQuery();
+        
+        
+        while(getItemData.next()){
+            tmp = getItemData.getInt("id");
+        }
+        
+       
+            
+
+      
+        }catch(SQLException ex){
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        
+       
+       return tmp;
+       
+   }
      
-public static ArrayList<ArrayList<String>> getItemData(Connection conn, String username){
-        ArrayList<ArrayList<String>> res = new ArrayList<ArrayList<String>>();
-        System.out.println(username);
+public static void getItemData(Connection conn, String username){
+       
+        
         
        String sql="Select C.category,C.item_desc,C.price From Item C WHERE C.item_name ='"+username+"'";
         
@@ -210,16 +233,14 @@ public static ArrayList<ArrayList<String>> getItemData(Connection conn, String u
             String category = getItemData.getString("category");
             String desc = getItemData.getString("item_desc");
             String price = getItemData.getString("price");
-            res.add(new ArrayList<String>());
             ItemShow.ItemDesc.setText("Item description : "+desc);
             ItemShow.Category.setText("Category number : "+category);
             ItemShow.Price.setText("Item price : "+ price);
             
-//            res.get(res.size()-1).add(username1);
-//            res.get(res.size()-1).add(fname); 
+
             
         }
-      //  Frame.UserTable.setModel(DbUtils.resultSetToTableModel(getUsersSet));
+     
         
         }catch(SQLException ex){
             System.out.println("SQLException: " + ex.getMessage());
@@ -228,9 +249,9 @@ public static ArrayList<ArrayList<String>> getItemData(Connection conn, String u
         }
         
         
-        return res;
+        
     
     
     }
-    
+    protected static int tmp;
 }

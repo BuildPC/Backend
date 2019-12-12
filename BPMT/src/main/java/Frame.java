@@ -102,13 +102,12 @@ public class Frame extends javax.swing.JFrame {
         DynamicPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1210, 700));
-        setPreferredSize(new java.awt.Dimension(1225, 720));
         setSize(new java.awt.Dimension(1230, 720));
 
-        mainpanel.setBackground(new java.awt.Color(255, 255, 255));
+        mainpanel.setBackground(new java.awt.Color(204, 204, 0));
 
+        LeftPanel.setBackground(new java.awt.Color(153, 153, 0));
         LeftPanel.setLayout(null);
 
         UserButton.setFont(new java.awt.Font("Trebuchet MS", 1, 11)); // NOI18N
@@ -127,9 +126,9 @@ public class Frame extends javax.swing.JFrame {
         LeftPanel.add(ItemButton);
         ItemButton.setBounds(10, 298, 98, 30);
 
-        BuildNo.setText("PCBuild 0.4v");
+        BuildNo.setText("PCBuild 0.7v");
         LeftPanel.add(BuildNo);
-        BuildNo.setBounds(20, 680, 70, 16);
+        BuildNo.setBounds(10, 680, 110, 16);
 
         MainMenuButton.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         MainMenuButton.setText("Main");
@@ -138,6 +137,7 @@ public class Frame extends javax.swing.JFrame {
         LeftPanel.add(jLabel1);
         jLabel1.setBounds(-6, -6, 160, 730);
 
+        DynamicPanel.setBackground(new java.awt.Color(204, 204, 0));
         DynamicPanel.setMaximumSize(new java.awt.Dimension(1095, 720));
         DynamicPanel.setMinimumSize(new java.awt.Dimension(1095, 720));
 
@@ -223,6 +223,7 @@ public class Frame extends javax.swing.JFrame {
                 new Frame().setVisible(true);
                 SQLUtilities.Update_table(UserInfo.UserTable);
                 SQLUtilities.Update_tableItem(ItemInfo.ItemTable);
+                System.out.println(SQLUtilities.currenid(Frame.conn));
             }
         });
     }
