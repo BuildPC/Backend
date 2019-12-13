@@ -4,6 +4,9 @@ import java.awt.GridBagLayout;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +22,7 @@ import net.proteanit.sql.DbUtils;
 
 public class Frame extends javax.swing.JFrame {
     public static Connection conn;
+   
     
     GridBagLayout layout = new GridBagLayout();
     UserInfo p1;
@@ -192,6 +196,7 @@ public class Frame extends javax.swing.JFrame {
      */
     public static void main(String args[]) throws SQLException, Exception {
      conn =  SQLUtilities.DBConnection();  
+     
      conn.setAutoCommit(false);
     
         /* Set the Nimbus look and feel */
@@ -223,10 +228,12 @@ public class Frame extends javax.swing.JFrame {
                 new Frame().setVisible(true);
                 SQLUtilities.Update_table(UserInfo.UserTable);
                 SQLUtilities.Update_tableItem(ItemInfo.ItemTable);
-                System.out.println(SQLUtilities.currenid(Frame.conn));
+               
+             
             }
         });
     }
+     
     
     protected String getCurrentItem;
     protected String getCurrentStock;

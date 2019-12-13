@@ -1,3 +1,4 @@
+import com.jcraft.jsch.Session;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.io.ByteArrayOutputStream;
@@ -52,7 +53,6 @@ public class AddItem extends javax.swing.JFrame {
         ItemCombo = new javax.swing.JComboBox<>();
         AddButton = new javax.swing.JButton();
         uploadButton = new javax.swing.JButton();
-        Pic = new javax.swing.JLabel();
         FileLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -91,7 +91,7 @@ public class AddItem extends javax.swing.JFrame {
         jLabel7.setText("Item Category");
 
         ItemCombo.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        ItemCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MotherBoard", "CPU", "GPU", "RAM", "SSD", "HDD", "Power Supply", "Keyboard", "Mouse", "Case" }));
+        ItemCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MotherBoard", "CPU", "GPU", "RAM", "SSD", "Power Supply", "Keyboard", "Mouse", "Case" }));
 
         AddButton.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         AddButton.setText("ADD");
@@ -109,8 +109,6 @@ public class AddItem extends javax.swing.JFrame {
             }
         });
 
-        Pic.setBackground(new java.awt.Color(255, 255, 255));
-
         FileLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         FileLabel.setText("File path");
 
@@ -121,49 +119,43 @@ public class AddItem extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ItemCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel1)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(159, 159, 159)
-                                .addComponent(ItemField, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel4))
-                                        .addGap(32, 32, 32))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(18, 18, 18)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(StockField)
-                                    .addComponent(PriceField, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(20, 20, 20)
-                                .addComponent(DescField)))
-                        .addGap(48, 48, 48)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(FileLabel)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(uploadButton)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE))
-                            .addComponent(Pic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(48, 48, 48))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel7)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(ItemCombo, 0, 283, Short.MAX_VALUE))
+                        .addComponent(jLabel1)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(0, 0, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jLabel4)
+                                            .addGap(81, 81, 81))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jLabel3)
+                                            .addGap(18, 18, 18))))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(StockField)
+                                .addComponent(PriceField)
+                                .addComponent(ItemField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addGap(20, 20, 20)
+                            .addComponent(DescField)))
+                    .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(48, 48, 48)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(FileLabel)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(uploadButton)))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,38 +163,36 @@ public class AddItem extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(StockField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
-                        .addGap(44, 44, 44)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(PriceField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(62, 62, 62)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(DescField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(47, 47, 47))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ItemField)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel6)
-                                .addComponent(uploadButton)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(FileLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(Pic, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ItemField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(uploadButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(FileLabel)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PriceField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(62, 62, 62)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(DescField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(47, 47, 47)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(ItemCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54))
+                .addGap(136, 136, 136))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -246,29 +236,32 @@ public class AddItem extends javax.swing.JFrame {
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
 
         try{
+            
+         int tmp=SQLUtilities.currenid(Frame.conn)+1;
+         
+         String PhotoId= ""+tmp+".jpg";
+         System.out.println("what "+PhotoId);
         stock = Integer.parseInt(StockField.getText());
         itemName = ItemField.getText();
         description = DescField.getText();
         
         price = properfloat(PriceField.getText());
         
-        }catch(NumberFormatException nfe){
-            JOptionPane.showMessageDialog(jPanel1,"Check your data");
-            System.out.println(nfe.getMessage());
-        }
-         String testPhoto="testLink";
-      
-        try {
-            System.out.println(SQLUtilities.currenid(Frame.conn));
-            SQLUtilities.AddItem(itemName,description,stock,(float)price,categorizer(ItemCombo.getSelectedItem().toString()),Frame.conn,testPhoto);
+        
+        
+        
+        
+            
+            SQLUtilities.AddItem(itemName,description,stock,(float)price,categorizer(ItemCombo.getSelectedItem().toString()),Frame.conn,PhotoId);
             Frame.conn.commit();
+            
             JOptionPane.showMessageDialog(jPanel1,"Item added");
         } catch (SQLException ex) {
             Logger.getLogger(AddItem.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(jPanel1,"Check your data");
+            
+            
         }
-        
-        System.out.println("Object added");
        
         close();
     }//GEN-LAST:event_AddButtonActionPerformed
@@ -280,44 +273,48 @@ public class AddItem extends javax.swing.JFrame {
        // chooser.changeToParentDirectory();
        
         int tmp = SQLUtilities.currenid(Frame.conn)+1;
-        System.out.println("tmp = "+tmp);
         File renFile = new File(tmp+".jpg");
         file = chooser.getSelectedFile();
-         System.out.println(file.getName());
-         System.out.println("renfile"+renFile.getName());
         file.renameTo(renFile);
-        
-        
-//        if(file.renameTo(renFile)){
-//            System.out.println(file.getName());
-//        }
-//        else{System.out.println("operation failed");}
-//        
-        System.out.println(file.getName());
+       
         try{
-            
+            System.out.println("beofre copy");
+            System.out.println("file.path = "+file.toPath());
+            System.out.println("renfile.topath ="+ renFile.getPath());
             Files.copy(file.toPath(), renFile.toPath());
+            System.out.println("after copy");
             
-        Pic.setIcon(new ImageIcon(file.toString()));
-        filename = file.getAbsolutePath();
-        ss=filename;
-        FileLabel.setText(filename);
+       
+        String  path = "/Volumes/GoogleDrive/My Drive/NetBeansProjects/TestProject320cs/ssh_key.txt";
+        
+        
+        
+        String remoteB = "/var/www/photos/";
+        String local = ""+renFile.toPath();
+        System.out.println("renpath = "+renFile.getAbsolutePath());
+        String fileName = ""+renFile.getName();
+
+        String user = "dozpinar";
+        String host = "buildpc.software";
+        int port = 22;
+
+       
+        String keyPassword = null;
+    
+        Session session = SendFile.createSession(user, host, port, path, keyPassword);
+        //SendFile.copyLocalToRemote(session, local, remoteB, fileName);
+       
+     
+        
+        
        
         
-            File image = new File (filename);
-            
-            FileInputStream fis = new FileInputStream(image);
-            ByteArrayOutputStream bos =new ByteArrayOutputStream();
-            byte[]buf = new byte[1024];
-                for(int readNum; (readNum=fis.read(buf))!=-1;){
-                    bos.write(buf,0,readNum);
-                }
-        photo=bos.toByteArray();
         }catch(Exception e){
             JOptionPane.showMessageDialog(jPanel1,"File not selected");
             JOptionPane.showMessageDialog(jPanel1,e.getMessage());
+            renFile.delete();
     }
-      
+      renFile.deleteOnExit();
     }//GEN-LAST:event_uploadButtonActionPerformed
 
    public static int categorizer(String cat){
@@ -335,22 +332,19 @@ public class AddItem extends javax.swing.JFrame {
             case "SSD":
                 Id=3;
                 break;
-            case "HDD":
+            case "RAM":
                 Id=4;
                 break;
-            case "RAM":
+            case "Power Supply":
                 Id=5;
                 break;
-            case "Power Supply":
-                Id=6;
-                break;
             case "Mouse":
-                Id=7;
+                Id=6;
             case "Keyboard":
-                Id=8;
+                Id=7;
                 break;
             case "Case":
-                Id=9;
+                Id=8;
             default:
                 Id=-1;
                 
@@ -366,7 +360,6 @@ public class AddItem extends javax.swing.JFrame {
          double tmp = 0.0;
          tmp = Double.valueOf(replace2);
             return tmp;
-   
     }
     
  
@@ -377,7 +370,6 @@ public class AddItem extends javax.swing.JFrame {
     private javax.swing.JLabel FileLabel;
     private javax.swing.JComboBox<String> ItemCombo;
     private javax.swing.JTextField ItemField;
-    private javax.swing.JLabel Pic;
     private javax.swing.JTextField PriceField;
     private javax.swing.JTextField StockField;
     private javax.swing.JLabel jLabel1;
@@ -390,7 +382,7 @@ public class AddItem extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton uploadButton;
     // End of variables declaration//GEN-END:variables
-byte[] photo = null;
+
 String filename ="";
 public File file;
 
