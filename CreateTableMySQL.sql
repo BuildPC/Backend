@@ -5,7 +5,7 @@ first_name VARCHAR(15) NOT NULL,
 last_name VARCHAR(15) NOT NULL,
 phone VARCHAR(12) NOT NULL,
 caddress VARCHAR(100) NOT NULL,
-PRIMARY KEY (username)
+PRIMARY KEY (username),
 FOREIGN KEY (username) REFERENCES users(email)
 );
 
