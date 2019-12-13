@@ -1,37 +1,43 @@
 use [cs320DB]
 
-/* Customer zipcode city */
+/* Customer zipcode city 
 CREATE TABLE Customer_ZC (
 zipcode INT NOT NULL,
 city VARCHAR(15) NOT NULL,
 PRIMARY KEY(zipcode)
-);
+);*/
 
-/* Customer address zipcode */
+/* Customer address zipcode
 CREATE TABLE Customer_AZ (
 caddress VARCHAR(100) NOT NULL,
 zipcode INT NOT NULL,
 PRIMARY KEY(caddress),
 FOREIGN KEY (zipcode) REFERENCES Customer_ZC(zipcode)
-);
+);*/
 
 /* Customer */
 CREATE TABLE Customer (
-username VARCHAR(15) NOT NULL,
+username VARCHAR(255) NOT NULL,
 first_name VARCHAR(15) NOT NULL,
 last_name VARCHAR(15) NOT NULL,
 phone VARCHAR(12) NOT NULL,
 caddress VARCHAR(100) NOT NULL,
 PRIMARY KEY (username),
-FOREIGN KEY (caddress) REFERENCES Customer_AZ(caddress)
+FOREIGN KEY (username) REFERENCES users(email)
 );
 
-/* Customers Email */
+/* Customers Email
 CREATE TABLE Email (
 email VARCHAR(320) NOT NULL,
 username VARCHAR(15) NOT NULL,
 PRIMARY KEY (email),
 FOREIGN KEY (username) REFERENCES Customer(username)
+);*/
+
+CREATE TABLE Category (
+category INT NOT NULL,
+category_name VARCHAR(30) NOT NULL,
+PRIMARY KEY(category)
 );
 
 /* Item */
@@ -43,7 +49,8 @@ item_desc TEXT NOT NULL,
 stock INT NOT NULL,
 price FLOAT NOT NULL,
 photo TEXT,
-PRIMARY KEY (item_id)
+PRIMARY KEY (item_id),
+FOREIGN KEY (category) REFERENCES  Category (category)
 );
 
 /* Basket */

@@ -1,35 +1,12 @@
-/* Customer zipcode city */
-CREATE TABLE Customer_ZC (
-zipcode INT NOT NULL,
-city VARCHAR(15) NOT NULL,
-PRIMARY KEY(zipcode)
-);
-
-/* Customer address zipcode */
-CREATE TABLE Customer_AZ (
-caddress VARCHAR(100) NOT NULL,
-zipcode INT NOT NULL,
-PRIMARY KEY(caddress),
-FOREIGN KEY (zipcode) REFERENCES Customer_ZC(zipcode)
-);
-
 /* Customer */
 CREATE TABLE Customer (
-username VARCHAR(15) NOT NULL,
+username VARCHAR(255) NOT NULL,
 first_name VARCHAR(15) NOT NULL,
 last_name VARCHAR(15) NOT NULL,
 phone VARCHAR(12) NOT NULL,
 caddress VARCHAR(100) NOT NULL,
-PRIMARY KEY (username),
-FOREIGN KEY (caddress) REFERENCES Customer_AZ(caddress)
-);
-
-/* Customers Email */
-CREATE TABLE Email (
-email VARCHAR(320) NOT NULL,
-username VARCHAR(15) NOT NULL,
-PRIMARY KEY (email),
-FOREIGN KEY (username) REFERENCES Customer(username)
+PRIMARY KEY (username)
+FOREIGN KEY (username) REFERENCES users(email)
 );
 
 /* Item */
