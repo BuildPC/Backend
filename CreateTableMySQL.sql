@@ -23,7 +23,7 @@ PRIMARY KEY (item_id)
 
 /* Basket */
 CREATE TABLE Basket (
-basket_id INT NOT NULL,
+basket_id INT NOT NULL AUTO_INCREMENT,
 username VARCHAR(15) NOT NULL,
 PRIMARY KEY (basket_id),
 FOREIGN KEY (username) REFERENCES Customer(username)
@@ -46,3 +46,14 @@ PRIMARY KEY (basket_id),
 FOREIGN KEY (basket_id) REFERENCES Basket(basket_id)
 );
 
+/* Triggers */
+DELIMITER //
+
+CREATE TRIGGER assign_Basket
+AFTER INSERT ON Customer FOR EACH ROW
+BEGIN
+  IF new.username IS NOT NULL THEN INSERT INTO Basket(username) VALUES(new.username);
+  END IF;
+END; //
+
+DELIMITER ;
