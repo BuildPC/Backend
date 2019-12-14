@@ -1,4 +1,4 @@
-/* Customer */
+/* Customer
 CREATE TABLE Customer (
 username VARCHAR(255) NOT NULL,
 first_name VARCHAR(15) NOT NULL,
@@ -7,7 +7,7 @@ phone VARCHAR(12) NOT NULL,
 caddress VARCHAR(100) NOT NULL,
 PRIMARY KEY (username),
 FOREIGN KEY (username) REFERENCES users(email)
-);
+);*/
 
 /* Item */
 CREATE TABLE Item (
@@ -26,7 +26,7 @@ CREATE TABLE Basket (
 basket_id INT NOT NULL AUTO_INCREMENT,
 username VARCHAR(15) NOT NULL,
 PRIMARY KEY (basket_id),
-FOREIGN KEY (username) REFERENCES Customer(username)
+FOREIGN KEY (username) REFERENCES users(email)
 );
 
 /* Basket Contains */
@@ -50,9 +50,9 @@ FOREIGN KEY (basket_id) REFERENCES Basket(basket_id)
 DELIMITER //
 
 CREATE TRIGGER assign_Basket
-AFTER INSERT ON Customer FOR EACH ROW
+AFTER INSERT ON users FOR EACH ROW
 BEGIN
-  IF new.username IS NOT NULL THEN INSERT INTO Basket(username) VALUES(new.username);
+  IF new.email IS NOT NULL THEN INSERT INTO Basket(username) VALUES(new.email);
   END IF;
 END; //
 
