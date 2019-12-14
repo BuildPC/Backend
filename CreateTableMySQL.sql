@@ -11,7 +11,7 @@ FOREIGN KEY (username) REFERENCES users(email)
 
 /* Item */
 CREATE TABLE Item (
-item_id NOT NULL AUTO_INCREMENT,
+item_id INT NOT NULL AUTO_INCREMENT,
 item_name TEXT NOT NULL,
 category INT NOT NULL,
 item_desc TEXT NOT NULL,
