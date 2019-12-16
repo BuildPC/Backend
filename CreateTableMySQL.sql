@@ -24,7 +24,7 @@ PRIMARY KEY (item_id)
 /* Basket */
 CREATE TABLE Basket (
 basket_id INT NOT NULL AUTO_INCREMENT,
-username VARCHAR(15) NOT NULL,
+username VARCHAR(255) NOT NULL,
 PRIMARY KEY (basket_id),
 FOREIGN KEY (username) REFERENCES users(email)
 );
