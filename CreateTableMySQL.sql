@@ -9,6 +9,12 @@ PRIMARY KEY (username),
 FOREIGN KEY (username) REFERENCES users(email)
 );*/
 
+CREATE TABLE Category (
+category INT NOT NULL,
+category_name VARCHAR(30) NOT NULL,
+PRIMARY KEY(category)
+);
+
 /* Item */
 CREATE TABLE Item (
 item_id INT NOT NULL AUTO_INCREMENT,
@@ -18,7 +24,8 @@ item_desc TEXT NOT NULL,
 stock INT NOT NULL,
 price FLOAT NOT NULL,
 photo TEXT,
-PRIMARY KEY (item_id)
+PRIMARY KEY (item_id),
+FOREIGN KEY (category) REFERENCES  Category (category)
 );
 
 /* Basket */
