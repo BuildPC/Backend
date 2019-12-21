@@ -49,6 +49,7 @@ FOREIGN KEY (item_id) REFERENCES Item(item_id)
 /* History(Sold Baskets) */
 CREATE TABLE History (
 basket_id INT NOT NULL,
+date datetime DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (basket_id),
 FOREIGN KEY (basket_id) REFERENCES Basket(basket_id)
 );
