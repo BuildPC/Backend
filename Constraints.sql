@@ -26,6 +26,21 @@ END //
 
 DELIMITER ;
 
+DELIMITER //
+
+CREATE TRIGGER check_StockOnUpdate
+BEFORE UPDATE ON BContains FOR EACH ROW
+BEGIN
+	DECLARE val INT;
+    IF NEW.item_id IN (SELECT I.item_id
+    				FROM Item I
+                    WHERE NEW.item_id = I.item_id AND NEW.amount <= I.stock) THEN SET val = 1;
+    ELSE SET new.item_id = NULL;
+    END IF;
+END //
+
+DELIMITER ;
+
 /* Procedures */
 DELIMITER //
 
