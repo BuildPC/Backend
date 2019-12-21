@@ -75,3 +75,21 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE purchaseBasket(IN username VARCHAR(255))
+BEGIN
+	DECLARE basketId INT;
+    
+    SELECT MAX(B.basket_id)
+    INTO basketId
+    FROM Basket B 
+    WHERE B.username = username;
+    
+    INSERT INTO History (basket_id) VALUES (basketId);
+    INSERT INTO Basket (username) VALUES (username);
+    
+END //
+
+DELIMITER ;
