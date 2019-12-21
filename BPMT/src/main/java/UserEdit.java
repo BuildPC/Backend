@@ -40,11 +40,9 @@ public class UserEdit extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         UserNameLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        NameLabel = new javax.swing.JLabel();
         closeButton = new javax.swing.JButton();
         userphoneLabel = new javax.swing.JLabel();
         adresLabel = new javax.swing.JLabel();
-        lastnamelabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -53,13 +51,10 @@ public class UserEdit extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 0));
 
         UserNameLabel.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        UserNameLabel.setText("Username : ");
+        UserNameLabel.setText("Email :");
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel1.setText("User Info");
-
-        NameLabel.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        NameLabel.setText("Name :");
 
         closeButton.setText("Done");
         closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -68,11 +63,11 @@ public class UserEdit extends javax.swing.JFrame {
             }
         });
 
+        userphoneLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         userphoneLabel.setText("Phone number :");
 
+        adresLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         adresLabel.setText("Adress :");
-
-        lastnamelabel.setText("lastname :");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -88,15 +83,12 @@ public class UserEdit extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(NameLabel)
                             .addComponent(userphoneLabel)
                             .addComponent(adresLabel))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(UserNameLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
-                        .addComponent(lastnamelabel)
-                        .addGap(109, 109, 109))))
+                        .addGap(109, 350, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,16 +96,12 @@ public class UserEdit extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1)
                 .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(UserNameLabel)
-                    .addComponent(lastnamelabel))
-                .addGap(32, 32, 32)
-                .addComponent(NameLabel)
-                .addGap(44, 44, 44)
+                .addComponent(UserNameLabel)
+                .addGap(40, 40, 40)
                 .addComponent(userphoneLabel)
-                .addGap(35, 35, 35)
+                .addGap(40, 40, 40)
                 .addComponent(adresLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addComponent(closeButton)
                 .addContainerGap())
         );
@@ -139,13 +127,11 @@ public class UserEdit extends javax.swing.JFrame {
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected javax.swing.JLabel NameLabel;
-    public javax.swing.JLabel UserNameLabel;
+    protected javax.swing.JLabel UserNameLabel;
     protected static javax.swing.JLabel adresLabel;
     private javax.swing.JButton closeButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    protected javax.swing.JLabel lastnamelabel;
     protected static javax.swing.JLabel userphoneLabel;
     // End of variables declaration//GEN-END:variables
 }

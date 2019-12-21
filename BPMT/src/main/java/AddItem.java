@@ -1,3 +1,4 @@
+
 import com.jcraft.jsch.Session;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
@@ -15,12 +16,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author Denizcan
  */
 public class AddItem extends javax.swing.JFrame {
 
+    private File img;
     /**
      * Creates new form AddItem
      */
@@ -38,6 +41,7 @@ public class AddItem extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -54,6 +58,8 @@ public class AddItem extends javax.swing.JFrame {
         AddButton = new javax.swing.JButton();
         uploadButton = new javax.swing.JButton();
         FileLabel = new javax.swing.JLabel();
+
+        jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -87,11 +93,17 @@ public class AddItem extends javax.swing.JFrame {
             }
         });
 
+        StockField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StockFieldActionPerformed(evt);
+            }
+        });
+
         jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel7.setText("Item Category");
 
         ItemCombo.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        ItemCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MotherBoard", "CPU", "GPU", "RAM", "SSD", "Power Supply", "Keyboard", "Mouse", "Case" }));
+        ItemCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MotherBoard", "CPU", "GPU", "RAM", "SSD", "PSY", "Keyboard", "Mouse", "Case" }));
 
         AddButton.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         AddButton.setText("ADD");
@@ -217,152 +229,143 @@ public class AddItem extends javax.swing.JFrame {
     protected double price;
     protected String description;
     protected int stock;
-    
-     private void close(){
-        WindowEvent winClosingEvent = new WindowEvent (this, WindowEvent.WINDOW_CLOSING);
+
+    private void close() {
+        WindowEvent winClosingEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
     }
-       public static byte[] convertFileContentToBlob(String filePathStr) 
-        throws IOException {
-	// get path object pointing to file
-	Path filePath = Paths.get(filePathStr);
-	// get byte array with file contents
-	byte[] fileContent = Files.readAllBytes(filePath);
-	return fileContent;
-}
-       
-   
-    
+
+    public static byte[] convertFileContentToBlob(String filePathStr) throws IOException {
+        // get path object pointing to file
+        Path filePath = Paths.get(filePathStr);
+        // get byte array with file contents
+        byte[] fileContent = Files.readAllBytes(filePath);
+        return fileContent;
+    }
+
+
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
 
-        try{
-            
-         int tmp=SQLUtilities.currenid(Frame.conn)+1;
-         
-         String PhotoId= ""+tmp+".jpg";
-         System.out.println("what "+PhotoId);
-        stock = Integer.parseInt(StockField.getText());
-        itemName = ItemField.getText();
-        description = DescField.getText();
-        
-        price = properfloat(PriceField.getText());
-        
-        
-        
-        
-        
-            
-            SQLUtilities.AddItem(itemName,description,stock,(float)price,categorizer(ItemCombo.getSelectedItem().toString()),Frame.conn,PhotoId);
+        try {
+            stock = Integer.parseInt(StockField.getText());
+            itemName = ItemField.getText();
+            description = DescField.getText();
+
+            price = properfloat(PriceField.getText());
+
+            SQLUtilities.AddItem(itemName, description, stock, (float) price, categorizer(ItemCombo.getSelectedItem().toString()), Frame.conn,uploadImage(img));
             Frame.conn.commit();
-            
-            JOptionPane.showMessageDialog(jPanel1,"Item added");
+           
+            JOptionPane.showMessageDialog(jPanel1, "Item added");
         } catch (SQLException ex) {
             Logger.getLogger(AddItem.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(jPanel1,"Check your data");
-            
-            
+            JOptionPane.showMessageDialog(jPanel1, "Check your data");
+
         }
-       
+
         close();
     }//GEN-LAST:event_AddButtonActionPerformed
 
     private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadButtonActionPerformed
         JFileChooser chooser = new JFileChooser();
-        
+
         chooser.showSaveDialog(jPanel1);
-       // chooser.changeToParentDirectory();
-       
-        int tmp = SQLUtilities.currenid(Frame.conn)+1;
-        File renFile = new File(tmp+".jpg");
-        file = chooser.getSelectedFile();
-        file.renameTo(renFile);
-       
-        try{
-            System.out.println("beofre copy");
-            System.out.println("file.path = "+file.toPath());
-            System.out.println("renfile.topath ="+ renFile.getPath());
-            Files.copy(file.toPath(), renFile.toPath());
-            System.out.println("after copy");
-            
-       
-        String  path = "/Volumes/GoogleDrive/My Drive/NetBeansProjects/TestProject320cs/ssh_key.txt";
-        
-        
-        
-        String remoteB = "/var/www/photos/";
-        String local = ""+renFile.toPath();
-        System.out.println("renpath = "+renFile.getAbsolutePath());
-        String fileName = ""+renFile.getName();
 
-        String user = "dozpinar";
-        String host = "buildpc.software";
-        int port = 22;
-
-       
-        String keyPassword = null;
-    
-        Session session = SendFile.createSession(user, host, port, path, keyPassword);
-        //SendFile.copyLocalToRemote(session, local, remoteB, fileName);
-       
-     
-        
-        
-       
-        
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(jPanel1,"File not selected");
-            JOptionPane.showMessageDialog(jPanel1,e.getMessage());
-            renFile.delete();
-    }
-      renFile.deleteOnExit();
+        img = chooser.getSelectedFile();
     }//GEN-LAST:event_uploadButtonActionPerformed
 
-   public static int categorizer(String cat){
+    private void StockFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StockFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_StockFieldActionPerformed
+
+    private void uploadImage(String filename){
+        uploadImage(new File(filename));
+    }
+    private String uploadImage(File file) {
+        int tmp = SQLUtilities.currenid(Frame.conn) + 1;
+        File renFile = new File(tmp + ".jpg");
+        file.renameTo(renFile);
+
+        try {
+            System.out.println("beofre copy");
+            System.out.println("file.path = " + file.toPath());
+            System.out.println("renfile.topath =" + renFile.getPath());
+            Files.copy(file.toPath(), renFile.toPath());
+            System.out.println("after copy");
+
+            String path = "/Volumes/GoogleDrive/My Drive/NetBeansProjects/TestProject320cs/ssh_key.txt";
+
+            String remoteB = "/var/www/static.buildpc.software/public/photos/";
+            String local = "" + renFile.toPath();
+            System.out.println("renpath = " + renFile.getAbsolutePath());
+            String fileName = "" + renFile.getName();
+
+            String user = "dozpinar";
+            String host = "buildpc.software";
+            int port = 22;
+
+            String keyPassword = null;
+
+            Session session = SendFile.createSession(user, host, port, path, keyPassword);
+            SendFile.copyLocalToRemote(session, local, remoteB, fileName);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(jPanel1, "File not selected");
+            JOptionPane.showMessageDialog(jPanel1, e.getMessage());
+            renFile.delete();
+        }
+        String nm = renFile.getName();
+        renFile.deleteOnExit();
+        return nm;
+        
+
+    }
+
+    public static int categorizer(String cat) {
         int Id;
-        switch(cat){
+        switch (cat) {
             case "MotherBoard":
-                Id=0;
+                Id = 0;
                 break;
             case "CPU":
-                Id=1;
+                Id = 1;
                 break;
             case "GPU":
-                Id=2;
+                Id = 2;
                 break;
             case "SSD":
-                Id=3;
+                Id = 3;
                 break;
             case "RAM":
-                Id=4;
+                Id = 4;
                 break;
-            case "Power Supply":
-                Id=5;
+            case "PSY":
+                Id = 5;
                 break;
             case "Mouse":
-                Id=6;
+                Id = 6;
             case "Keyboard":
-                Id=7;
+                Id = 7;
                 break;
             case "Case":
-                Id=8;
+                Id = 8;
             default:
-                Id=-1;
-                
+                Id = -1;
+
         }
         return Id;
-   
-        
+
     }
-     protected static double properfloat(String a){
-         String replace = a.replace(".","");
-         String replace1 = replace.replace(",", ".");
-         String replace2 = replace1.replace("-","");
-         double tmp = 0.0;
-         tmp = Double.valueOf(replace2);
-            return tmp;
+
+    protected static double properfloat(String a) {
+        String replace = a.replace(".", "");
+        String replace1 = replace.replace(",", ".");
+        String replace2 = replace1.replace("-", "");
+        double tmp = 0.0;
+        tmp = Double.valueOf(replace2);
+        return tmp;
     }
-    
- 
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddButton;
@@ -372,6 +375,7 @@ public class AddItem extends javax.swing.JFrame {
     private javax.swing.JTextField ItemField;
     private javax.swing.JTextField PriceField;
     private javax.swing.JTextField StockField;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -383,9 +387,9 @@ public class AddItem extends javax.swing.JFrame {
     private javax.swing.JButton uploadButton;
     // End of variables declaration//GEN-END:variables
 
-String filename ="";
-public File file;
+    String filename = "";
+    public File file;
 
-protected String ss;
+    protected String ss;
 
 }

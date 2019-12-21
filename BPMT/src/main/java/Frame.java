@@ -4,6 +4,7 @@ import java.awt.GridBagLayout;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -198,6 +201,7 @@ public class Frame extends javax.swing.JFrame {
      conn =  SQLUtilities.DBConnection();  
      
      conn.setAutoCommit(false);
+     
     
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -228,6 +232,7 @@ public class Frame extends javax.swing.JFrame {
                 new Frame().setVisible(true);
                 SQLUtilities.Update_table(UserInfo.UserTable);
                 SQLUtilities.Update_tableItem(ItemInfo.ItemTable);
+               
                
              
             }

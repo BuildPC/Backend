@@ -154,21 +154,21 @@ public class UserInfo extends javax.swing.JPanel {
         TableModel Table1 = UserTable.getModel();
         int index[] = UserTable.getSelectedRows();
 
-        Object[] row = new Object[3];
+        Object[] row = new Object[2];
         UserEdit userFrame = new UserEdit();
 
         for(int i =0;i<index.length;i++){
             row[0]= Table1.getValueAt(index[i],0);
             row[1]= Table1.getValueAt(index[i], 1);
-            row[2]= Table1.getValueAt(index[i],2);
+          //  row[2]= Table1.getValueAt(index[i],2);
 
         }
 
         userFrame.setVisible(true);
         //get other deteils of users!!!
-        userFrame.UserNameLabel.setText("UserName : "+row[0]);
-        userFrame.NameLabel.setText("Name : "+row[1]);
-        userFrame.lastnamelabel.setText("Last name : "+row[2]);
+        userFrame.UserNameLabel.setText("User Name : "+row[0]);
+        
+      
         SQLUtilities.getUserData(Frame.conn,row[0].toString());
 
     }//GEN-LAST:event_Export_RowsActionPerformed

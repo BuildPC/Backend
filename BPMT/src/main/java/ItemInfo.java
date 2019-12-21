@@ -1,7 +1,9 @@
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
@@ -44,6 +46,8 @@ public class ItemInfo extends javax.swing.JPanel {
         realAddStock = new javax.swing.JTextField();
         realCurrentValue = new javax.swing.JButton();
         RefreshButton = new javax.swing.JButton();
+        AddMultipleFiles = new javax.swing.JButton();
+        AddmultipleLabel = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(204, 204, 0));
         setMaximumSize(new java.awt.Dimension(1095, 720));
@@ -156,16 +160,19 @@ public class ItemInfo extends javax.swing.JPanel {
             }
         });
 
+        AddMultipleFiles.setText("+++");
+        AddMultipleFiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddMultipleFilesActionPerformed(evt);
+            }
+        });
+
+        AddmultipleLabel.setText("Add items via excel file :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(AddItemButton)
-                .addGap(293, 293, 293))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,6 +186,16 @@ public class ItemInfo extends javax.swing.JPanel {
                             .addComponent(RefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(ItemTopLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(190, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(AddmultipleLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(AddMultipleFiles)
+                    .addComponent(AddItemButton))
+                .addGap(250, 250, 250))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,7 +219,11 @@ public class ItemInfo extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(AddItemButton))
-                .addContainerGap(163, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AddMultipleFiles)
+                    .addComponent(AddmultipleLabel))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -277,6 +298,22 @@ public class ItemInfo extends javax.swing.JPanel {
          AddItem items = new AddItem();
          items.setVisible(true);
     }//GEN-LAST:event_AddItemButtonActionPerformed
+
+    private void AddMultipleFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddMultipleFilesActionPerformed
+        // TODO add your handling code here:
+        File img;
+        JFileChooser chooser = new JFileChooser();
+
+        chooser.showSaveDialog(jPanel2);
+
+        img = chooser.getSelectedFile();
+        try{
+            readExcelFile.insertToDB(img);
+        }catch(Exception e){
+                e.printStackTrace();
+          }
+        
+    }//GEN-LAST:event_AddMultipleFilesActionPerformed
 protected static int properStock(String a){
          String replace = a.replace(".","");
          String replace1 = replace.replace(",", ".");
@@ -288,6 +325,8 @@ protected static int properStock(String a){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddItemButton;
+    private javax.swing.JButton AddMultipleFiles;
+    private javax.swing.JLabel AddmultipleLabel;
     private javax.swing.JScrollPane ItemScrolpane3;
     protected static javax.swing.JTable ItemTable;
     private javax.swing.JLabel ItemTopLabel;

@@ -1,4 +1,8 @@
 
+import com.jcraft.jsch.Session;
+import java.io.File;
+import java.net.URLDecoder;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -6,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import net.proteanit.sql.DbUtils;
@@ -47,9 +53,6 @@ public class SQLUtilities {
 //        }
         return conn;
     }
-    
-    
-        
 
     protected static void Update_table(JTable UserTable) {
         try {
@@ -105,7 +108,7 @@ public class SQLUtilities {
 
     public static void getUserData(Connection conn, String username) {
 
-        String sql = "Select C.phone,C.name From users C WHERE C.email ='" + username + "'";
+        String sql = "Select C.email,C.name From users C WHERE C.email ='" + username + "'";
 
         try {
             PreparedStatement getUsers = conn.prepareStatement(sql);
@@ -115,8 +118,8 @@ public class SQLUtilities {
             while (getUsersData.next()) {
                 String username1 = getUsersData.getString("email");
                 String fname = getUsersData.getString("name");
-               // UserEdit.userphoneLabel.setText("Phone number : " + username1);
-               // UserEdit.adresLabel.setText("Address : " + fname);
+                UserEdit.userphoneLabel.setText("Name and Surname : " + fname);
+                UserEdit.adresLabel.setText("Email : " + username1);
 
             }
 
@@ -129,21 +132,65 @@ public class SQLUtilities {
     }
 
     public static void AddItem(String itemName, String itemDesc, int stock, float price, int category, Connection conn, String photo) throws SQLException {
+        AddItem(itemName, itemDesc, stock, price, category, conn, photo, true);
+    }
+
+    private static void AddItem(String itemName, String itemDesc, int stock, float price, int category, Connection conn, String photo, boolean shouldExec) throws SQLException {
 
         String addItem = "INSERT INTO Item (item_name,item_desc,stock,price,photo,category) VALUES (?,?,?,?,?,?)";
 
-        PreparedStatement item_id = Frame.conn.prepareStatement(addItem, Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement item = conn.prepareStatement(addItem, Statement.RETURN_GENERATED_KEYS);
 
-        item_id.setString(1, itemName);
-        item_id.setString(2, itemDesc);
-        item_id.setInt(3, stock);
-        item_id.setFloat(4, price);
-        item_id.setString(5, photo);
-        item_id.setInt(6, category);
+        item.setString(1, itemName);
+        item.setString(2, itemDesc);
+        item.setInt(3, stock);
+        item.setFloat(4, price);
+        item.setString(5, photo);
+        item.setInt(6, category);
 
-        item_id.addBatch();
-        item_id.executeBatch();
+        if (shouldExec) {
+            item.executeUpdate();
+        }
 
+    }
+
+    public static void AddItemBatch(ArrayList<ArrayList<String>> items, int startID) {
+        String addItem = "INSERT INTO Item (item_name,item_desc,stock,price,photo,category) VALUES (?,?,?,?,?,?)";
+        try {
+            PreparedStatement itemAdd = Frame.conn.prepareStatement(addItem);
+            Frame.conn.setAutoCommit(false);
+            for (ArrayList<String> item : items) {
+                String itemName = item.get(0);
+                System.out.println(itemName+" itemname");
+                String itemDesc = item.get(2);
+                System.out.println(itemDesc+"desc");
+                int stock = (int)Float.parseFloat(item.get(3));
+                System.out.println(stock+"stcok");
+                float price = Float.parseFloat(item.get(4));
+                System.out.println(price+"price");
+                int category = (int)Float.parseFloat(item.get(1));
+                System.out.println(category+"cat");
+                String photo = "" + (startID++) + ".jpg";
+                itemAdd.setString(1, itemName);
+                itemAdd.setString(2, itemDesc);
+                itemAdd.setInt(3, stock);
+                itemAdd.setFloat(4, price);
+                itemAdd.setString(5, photo);
+                itemAdd.setInt(6, category);
+
+                itemAdd.addBatch();
+                itemAdd.executeBatch();
+            }
+            Frame.conn.commit();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            System.err.println(e.getSQLState());
+            try {
+                Frame.conn.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(SQLUtilities.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public static void UpdateStock(String itemname, int newstock, int currentstock, Connection conn) {
@@ -220,5 +267,41 @@ public class SQLUtilities {
         }
 
     }
+
+    public static void uploadImageWithStartID(ArrayList<ArrayList<String>> items, int startID) {
+        for (ArrayList<String> item : items) {
+            try {
+                File file = new File(URLDecoder.decode(item.get(5), "UTF-8"));
+                File renFile = new File(""+startID++ + ".jpg");
+                file.renameTo(renFile);
+
+                System.out.println("beofre copy");
+                System.out.println("file.path = " + file.toPath());
+                System.out.println("renfile.topath =" + renFile.getPath());
+                Files.copy(file.toPath(), renFile.toPath());
+                System.out.println("after copy");
+
+                String path = "/Volumes/GoogleDrive/My Drive/NetBeansProjects/TestProject320cs/ssh_key.txt";
+
+                String remoteB = "/var/www/static.buildpc.software/public/photos/";
+                String local = "" + renFile.toPath();
+                System.out.println("renpath = " + renFile.getAbsolutePath());
+                String fileName = "" + renFile.getName();
+
+                String user = "dozpinar";
+                String host = "buildpc.software";
+                int port = 22;
+
+                String keyPassword = null;
+
+                Session session = SendFile.createSession(user, host, port, path, keyPassword);
+                SendFile.copyLocalToRemote(session, local, remoteB, fileName);
+                renFile.delete();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     protected static int tmp;
 }
