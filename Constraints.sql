@@ -59,3 +59,19 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE removeFromBasket(IN username VARCHAR(255), IN itemID INT)
+BEGIN
+	DECLARE basketId INT;
+    
+    SELECT MAX(B.basket_id)
+    INTO basketId
+    FROM Basket B 
+    WHERE B.username = username;
+    
+    DELETE FROM BContains WHERE item_id = itemID AND basket_id = basketId;
+END //
+
+DELIMITER ;
