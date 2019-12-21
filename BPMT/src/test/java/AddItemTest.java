@@ -9,6 +9,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -68,7 +73,100 @@ public class AddItemTest {
         tmp = test.categorizer(input);
         assertEquals(-1,tmp);
     }
-    
+    @Test
+    public void testCategorizer4() {
+        String input = "CPU";
+        int tmp = 0;
+        tmp = test.categorizer(input);
+        assertEquals(1,tmp);
+    }
+
+    @Test
+    public void testCategorizer5() {
+        String input = "GPU";
+        int tmp = 0;
+        tmp = test.categorizer(input);
+        assertEquals(2,tmp);
+    }
+    @Test
+    public void testCategorizer6() {
+        String input = "SSD";
+        int tmp = 0;
+        tmp = test.categorizer(input);
+        assertEquals(3,tmp);
+    }
+
+    @Test
+    public void testCategorizer7() {
+        String input = "PSY";
+        int tmp = 0;
+        tmp = test.categorizer(input);
+        assertEquals(5,tmp);
+    }
+
+    @Test
+    public void testCategorizer8() {
+        String input = "Mouse";
+        int tmp = 0;
+        tmp = test.categorizer(input);
+        assertEquals(6,tmp);
+    }
+
+    @Test
+    public void testCategorizer9() {
+        String input = "Keyboard";
+        int tmp = 0;
+        tmp = test.categorizer(input);
+        assertEquals(7,tmp);
+    }
+
+    @Test
+    public void testCategorizer10() {
+        String input = "Case";
+        int tmp = 0;
+        tmp = test.categorizer(input);
+        assertEquals(8,tmp);
+    }
+
+    @Test
+    public void addItemAddbuttonTest(){
+        //nead sql conn
+        test = new AddItem();
+        test.AddButton.doClick();
+    }
+
+    @Test
+    public void additemuploadButtonTest(){
+        test = new AddItem();
+        test.uploadButton.doClick();
+    }
+
+
+    @Test
+    public void addItemAddBJButton1(){
+        test = new AddItem();
+        test.jButton1.doClick();
+    }
+
+
+
+
+
+
+
+
+
+
+  //  @Test
+//    public void testuploadphoto() throws UnsupportedEncodingException {
+//        String path= "/Users/denis/Desktop/Cs320v2/2/COOLER MASTER MASTERBOX MB501L.jpg";
+//        File file = new File(URLDecoder.decode(path, "UTF-8"));
+//        String tmp ="";
+//        tmp =  test.uploadImage(file);
+//        int id = SQLUtilities.currenid(Frame.conn)+1;
+//
+//        assertEquals(""+id+"jpg",tmp);
+//    }
 
     /**
      

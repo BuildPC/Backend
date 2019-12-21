@@ -238,19 +238,19 @@ public class Frame extends javax.swing.JFrame {
             }
         });
     }
-     
-    
+
+
     protected String getCurrentItem;
     protected String getCurrentStock;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel BuildNo;
-    private javax.swing.JPanel DynamicPanel;
-    private javax.swing.JButton ItemButton;
+    protected javax.swing.JLabel BuildNo;
+    protected javax.swing.JPanel DynamicPanel;
+    protected javax.swing.JButton ItemButton;
     protected javax.swing.JPanel LeftPanel;
-    private javax.swing.JButton MainMenuButton;
-    private javax.swing.JButton UserButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel mainpanel;
+    protected javax.swing.JButton MainMenuButton;
+    protected javax.swing.JButton UserButton;
+    protected javax.swing.JLabel jLabel1;
+    protected javax.swing.JPanel mainpanel;
     // End of variables declaration//GEN-END:variables
 }
      

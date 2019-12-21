@@ -180,8 +180,8 @@ public class UserInfo extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Export_Rows;
-    private javax.swing.JButton RefreshUser;
+    protected javax.swing.JButton Export_Rows;
+    protected javax.swing.JButton RefreshUser;
     protected static javax.swing.JTable UserTable;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

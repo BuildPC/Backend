@@ -146,7 +146,7 @@ public class ItemShow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected static javax.swing.JLabel Category;
     protected javax.swing.JLabel CurrentStockLabel;
-    private javax.swing.JButton DoneButton;
+    protected javax.swing.JButton DoneButton;
     protected static javax.swing.JLabel ItemDesc;
     protected javax.swing.JLabel ItemIdLabel;
     protected javax.swing.JLabel ItemNameLabel;

@@ -149,7 +149,7 @@ public class SQLUtilities {
         item.setInt(6, category);
 
         if (shouldExec) {
-            item.executeUpdate();
+          //  item.executeUpdate();
         }
 
     }

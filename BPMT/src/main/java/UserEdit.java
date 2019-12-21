@@ -129,7 +129,7 @@ public class UserEdit extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JLabel UserNameLabel;
     protected static javax.swing.JLabel adresLabel;
-    private javax.swing.JButton closeButton;
+    protected javax.swing.JButton closeButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     protected static javax.swing.JLabel userphoneLabel;

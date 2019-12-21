@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -278,10 +279,8 @@ public class AddItem extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_StockFieldActionPerformed
 
-    private void uploadImage(String filename){
-        uploadImage(new File(filename));
-    }
-    private String uploadImage(File file) {
+
+    public String uploadImage(File file) {
         int tmp = SQLUtilities.currenid(Frame.conn) + 1;
         File renFile = new File(tmp + ".jpg");
         file.renameTo(renFile);
@@ -344,11 +343,13 @@ public class AddItem extends javax.swing.JFrame {
                 break;
             case "Mouse":
                 Id = 6;
+                break;
             case "Keyboard":
                 Id = 7;
                 break;
             case "Case":
                 Id = 8;
+                break;
             default:
                 Id = -1;
 
@@ -368,14 +369,14 @@ public class AddItem extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AddButton;
+    protected javax.swing.JButton AddButton;
     private javax.swing.JTextField DescField;
     private javax.swing.JLabel FileLabel;
     private javax.swing.JComboBox<String> ItemCombo;
     private javax.swing.JTextField ItemField;
     private javax.swing.JTextField PriceField;
     private javax.swing.JTextField StockField;
-    private javax.swing.JButton jButton1;
+    protected javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -384,7 +385,7 @@ public class AddItem extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton uploadButton;
+    protected javax.swing.JButton uploadButton;
     // End of variables declaration//GEN-END:variables
 
     String filename = "";
