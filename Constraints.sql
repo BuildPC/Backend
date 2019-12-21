@@ -37,7 +37,10 @@ BEGIN
     INTO basketId
     FROM Basket B 
     WHERE B.username = username;
-    INSERT INTO BContains (amount,basket_id,item_id) VALUES (amount,basketID,itemID);
+    
+    IF itemID NOT IN (SELECT B.item_id FROM BContains B WHERE B.basket_id = basketId AND B.item_id = itemID ) THEN INSERT INTO BContains (amount,basket_id,item_id) VALUES (amount,basketID,itemID);
+    ELSE UPDATE BContains SET amount = amount WHERE item_id = itemID AND basket_id = basketId;
+    END IF;
 END //
 
 DELIMITER ;
