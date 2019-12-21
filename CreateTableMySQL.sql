@@ -52,15 +52,3 @@ basket_id INT NOT NULL,
 PRIMARY KEY (basket_id),
 FOREIGN KEY (basket_id) REFERENCES Basket(basket_id)
 );
-
-/* Triggers */
-DELIMITER //
-
-CREATE TRIGGER assign_Basket
-AFTER INSERT ON users FOR EACH ROW
-BEGIN
-  IF new.email IS NOT NULL THEN INSERT INTO Basket(username) VALUES(new.email);
-  END IF;
-END; //
-
-DELIMITER ;
