@@ -29,7 +29,7 @@ DELIMITER ;
 /* Procedures */
 DELIMITER //
 
-CREATE PROCEDURE addBasket(IN username VARCHAR(255), IN itemID INT,IN amount INT)
+CREATE PROCEDURE addBasket(IN username VARCHAR(255), IN itemID INT,IN new_amount INT)
 BEGIN
 	DECLARE basketId INT;
     
@@ -38,8 +38,8 @@ BEGIN
     FROM Basket B 
     WHERE B.username = username;
     
-    IF itemID NOT IN (SELECT B.item_id FROM BContains B WHERE B.basket_id = basketId AND B.item_id = itemID ) THEN INSERT INTO BContains (amount,basket_id,item_id) VALUES (amount,basketID,itemID);
-    ELSE UPDATE BContains SET amount = amount WHERE item_id = itemID AND basket_id = basketId;
+    IF itemID NOT IN (SELECT B.item_id FROM BContains B WHERE B.basket_id = basketId AND B.item_id = itemID ) THEN INSERT INTO BContains (amount,basket_id,item_id) VALUES (new_amount,basketID,itemID);
+    ELSE UPDATE BContains SET amount = amount + new_amount WHERE item_id = itemID AND basket_id = basketId;
     END IF;
 END //
 
