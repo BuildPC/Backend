@@ -59,8 +59,9 @@ class SQLUtilitiesTest {
     @Test
     void SRSBPPBPMT001() throws SQLException {
         int tmp = SQLUtilities.currenid(frame.conn);
-        test.AddItem("test","testvalue",1,2.3f,1,frame.conn,"blob");
-        assertEquals(tmp+1,tmp);
+        test.AddItem("test2","testvalue",1,2.3f,1,frame.conn,"blob");
+        int tmp2 = SQLUtilities.currenid(frame.conn);
+        assertEquals(tmp+1,tmp2);
     }
 
     @Test
@@ -113,4 +114,8 @@ class SQLUtilitiesTest {
         test.Update_table(ItemInfo.ItemTable);
     }
 
+    @AfterAll
+    void cancelall() throws SQLException {
+        frame.conn.rollback();
+    }
 }

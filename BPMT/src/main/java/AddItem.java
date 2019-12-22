@@ -236,13 +236,7 @@ public class AddItem extends javax.swing.JFrame {
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
     }
 
-    public static byte[] convertFileContentToBlob(String filePathStr) throws IOException {
-        // get path object pointing to file
-        Path filePath = Paths.get(filePathStr);
-        // get byte array with file contents
-        byte[] fileContent = Files.readAllBytes(filePath);
-        return fileContent;
-    }
+
 
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
@@ -255,6 +249,7 @@ public class AddItem extends javax.swing.JFrame {
             price = properfloat(PriceField.getText());
 
             SQLUtilities.AddItem(itemName, description, stock, (float) price, categorizer(ItemCombo.getSelectedItem().toString()), Frame.conn,uploadImage(img));
+
             Frame.conn.commit();
            
             JOptionPane.showMessageDialog(jPanel1, "Item added");
@@ -289,7 +284,8 @@ public class AddItem extends javax.swing.JFrame {
             System.out.println("beofre copy");
             System.out.println("file.path = " + file.toPath());
             System.out.println("renfile.topath =" + renFile.getPath());
-            Files.copy(file.toPath(), renFile.toPath());
+            System.out.println();
+
             System.out.println("after copy");
 
             String path = "/Volumes/GoogleDrive/My Drive/NetBeansProjects/TestProject320cs/ssh_key.txt";
@@ -311,6 +307,7 @@ public class AddItem extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(jPanel1, "File not selected");
             JOptionPane.showMessageDialog(jPanel1, e.getMessage());
+            e.printStackTrace();
             renFile.delete();
         }
         String nm = renFile.getName();
