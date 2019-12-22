@@ -100,4 +100,17 @@ class SQLUtilitiesTest {
         File file = new File("/Users/denis/Desktop/Cs320v2/ItemTable.xlsx");
         test.AddItemBatch(readExcelFile.read(file),1);
     }
+
+    @Test
+    void update_table(){
+        frame.UserButton.doClick();
+        test.Update_table(UserInfo.UserTable);
+    }
+
+    @Test
+    void update_tableItem(){
+        frame.ItemButton.doClick();
+        test.Update_table(ItemInfo.ItemTable);
+    }
+
 }
