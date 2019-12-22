@@ -87,7 +87,7 @@ BEGIN
     FROM Basket B 
     WHERE B.username = username;
     
-    INSERT INTO History (basket_id) VALUES (basketId);
+    INSERT INTO History (basket_id,username) VALUES (basketId,username);
     INSERT INTO Basket (username) VALUES (username);
     
 END //
