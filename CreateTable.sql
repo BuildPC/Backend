@@ -74,7 +74,9 @@ FOREIGN KEY (item_id) REFERENCES Item(item_id)
 /* History(Sold Baskets) */
 CREATE TABLE History (
 basket_id INT NOT NULL,
+username VARCHAR(255) NOT NULL,
 PRIMARY KEY (basket_id),
-FOREIGN KEY (basket_id) REFERENCES Basket(basket_id)
+FOREIGN KEY (basket_id) REFERENCES Basket(basket_id),
+FOREIGN KEY (username) REFERENCES users(email)
 );
 
