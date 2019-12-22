@@ -31,7 +31,17 @@ class SendFileTest {
     void copyLocalToRemote() throws IOException, JSchException {
        test = new SendFile();
        Session tmp = SendFile.createSession("dozpinar","buildpc.software",22,"/Volumes/GoogleDrive/My Drive/NetBeansProjects/TestProject320cs/ssh_key.txt",null);
-       test.copyLocalToRemote(tmp,"/Users/denis/Desktop/Cs320v2/testimage.jpg","/var/www/static.buildpc.software/public/","testimage.jpg");
+      // test.copyLocalToRemote(tmp,"/Users/denis/Desktop/Cs320v2/testimage.jpg","/var/www/static.buildpc.software/public/","testimage.jpg");
+       assertTrue(test.copyLocalToRemote(tmp,"/Users/denis/Desktop/Cs320v2/testimage.jpg","/var/www/static.buildpc.software/public/","testimage.jpg"));
+    }
+
+
+    @Test
+    void SRSBPPBPMT0014() throws IOException, JSchException {
+        test = new SendFile();
+        Session tmp = SendFile.createSession("dozpinar","buildpc.software",22,"/Volumes/GoogleDrive/My Drive/NetBeansProjects/TestProject320cs/ssh_key.txt",null);
+        // test.copyLocalToRemote(tmp,"/Users/denis/Desktop/Cs320v2/testimage.jpg","/var/www/static.buildpc.software/public/","testimage.jpg");
+        assertFalse(test.copyLocalToRemote(tmp,"/Users/denis/Desktop/Cs320v2/testimage17mb.jpg","/var/www/static.buildpc.software/public/","testimage.jpg"));
     }
 
     @Test

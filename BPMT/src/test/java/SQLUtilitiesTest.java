@@ -57,8 +57,24 @@ class SQLUtilitiesTest {
 
 
     @Test
-    void AddItem() throws SQLException {
-        test.AddItem("asdfga","asgfg",1,2.3f,1,frame.conn,"blob");
+    void SRSBPPBPMT001() throws SQLException {
+        int tmp = SQLUtilities.currenid(frame.conn);
+        test.AddItem("test","testvalue",1,2.3f,1,frame.conn,"blob");
+        assertEquals(tmp+1,tmp);
+    }
+
+    @Test
+    void SRSBPPBPMT001dot3() throws SQLException {
+        int tmp = SQLUtilities.currenid(frame.conn);
+        test.AddItem("","",1,2.3f,1,frame.conn,"blob");
+        assertEquals(tmp,tmp);
+    }
+
+    @Test
+    void SRSBPPBPMT001dot2() throws SQLException {
+        int tmp = SQLUtilities.currenid(frame.conn);
+        test.AddItem("test","testvalue",1,2.3f,1,frame.conn,"blob");
+        assertEquals(tmp,tmp);
     }
 
 

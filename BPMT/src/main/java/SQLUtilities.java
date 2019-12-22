@@ -137,7 +137,7 @@ public class SQLUtilities {
 
     private static void AddItem(String itemName, String itemDesc, int stock, float price, int category, Connection conn, String photo, boolean shouldExec) throws SQLException {
 
-        String addItem = "INSERT INTO Item (item_name,item_desc,stock,price,photo,category) VALUES (?,?,?,?,?,?)";
+        String addItem = "INSERT OR IGNORE INTO Item (item_name,item_desc,stock,price,photo,category) VALUES (?,?,?,?,?,?)";
 
         PreparedStatement item = conn.prepareStatement(addItem, Statement.RETURN_GENERATED_KEYS);
 

@@ -42,8 +42,9 @@ public class SendFile {
         }
     }
     
-    protected static void copyLocalToRemote(Session session, String from, String to, String fileName) throws JSchException, IOException {
+    protected static boolean copyLocalToRemote(Session session, String from, String to, String fileName) throws JSchException, IOException {
         boolean ptimestamp = true;
+        boolean sended = false;
         //from = from + File.separator + fileName;
 
         // exec 'scp -t rfile' remotely
@@ -62,63 +63,70 @@ public class SendFile {
         }
 
         File _lfile = new File(from);
+        long check = 5000000;
+        if (_lfile.length()<=check){
 
-        if (ptimestamp) {
-            command = "T" + (_lfile.lastModified() / 1000) + " 0";
-            // The access time should be sent here,
-            // but it is not accessible with JavaAPI ;-<
-            command += (" " + (_lfile.lastModified() / 1000) + " 0\n");
+            if (ptimestamp) {
+                command = "T" + (_lfile.lastModified() / 1000) + " 0";
+                // The access time should be sent here,
+                // but it is not accessible with JavaAPI ;-<
+                command += (" " + (_lfile.lastModified() / 1000) + " 0\n");
+                out.write(command.getBytes());
+                out.flush();
+                if (checkAck(in) != 0) {
+                    System.exit(0);
+                }
+            }
+
+            // send "C0644 filesize filename", where filename should not include '/'
+            long filesize = _lfile.length();
+            command = "C0644 " + filesize + " ";
+            if (from.lastIndexOf('/') > 0) {
+                command += from.substring(from.lastIndexOf('/') + 1);
+            } else {
+                command += from;
+            }
+
+            command += "\n";
             out.write(command.getBytes());
             out.flush();
+
             if (checkAck(in) != 0) {
                 System.exit(0);
             }
-        }
 
-        // send "C0644 filesize filename", where filename should not include '/'
-        long filesize = _lfile.length();
-        command = "C0644 " + filesize + " ";
-        if (from.lastIndexOf('/') > 0) {
-            command += from.substring(from.lastIndexOf('/') + 1);
-        } else {
-            command += from;
-        }
+            // send a content of lfile
+            FileInputStream fis = new FileInputStream(from);
+            byte[] buf = new byte[1024];
+            while (true) {
+                int len = fis.read(buf, 0, buf.length);
+                if (len <= 0) break;
+                out.write(buf, 0, len); //out.flush();
+            }
 
-        command += "\n";
-        out.write(command.getBytes());
-        out.flush();
+            // send '\0'
+            buf[0] = 0;
+            out.write(buf, 0, 1);
+            out.flush();
 
-        if (checkAck(in) != 0) {
-            System.exit(0);
-        }
+            if (checkAck(in) != 0) {
+                System.exit(0);
+            }
+            out.close();
 
-        // send a content of lfile
-        FileInputStream fis = new FileInputStream(from);
-        byte[] buf = new byte[1024];
-        while (true) {
-            int len = fis.read(buf, 0, buf.length);
-            if (len <= 0) break;
-            out.write(buf, 0, len); //out.flush();
-        }
+            try {
+                if (fis != null) fis.close();
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+            sended = true;
 
-        // send '\0'
-        buf[0] = 0;
-        out.write(buf, 0, 1);
-        out.flush();
+            channel.disconnect();
+            session.disconnect();
+            return sended;
+        }else
+            return sended;
 
-        if (checkAck(in) != 0) {
-            System.exit(0);
-        }
-        out.close();
-
-        try {
-            if (fis != null) fis.close();
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-
-        channel.disconnect();
-        session.disconnect();
     }
 
     public static int checkAck(InputStream in) throws IOException {
