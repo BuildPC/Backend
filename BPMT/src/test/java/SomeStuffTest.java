@@ -43,14 +43,14 @@ public class SomeStuffTest {
         finall = stuff.properfloat(test);
         assertEquals(4.51,finall);
     }
-    
+    @Test
     public void testProperfloat2() {
         String test = "2.747,04";
         double finall = 0.0f;
         finall = stuff.properfloat(test);
         assertEquals(2747.04,finall);
     }
-    
+    @Test
     public void testProperfloat3() {
         String test = "-2.747,04";
         double finall = 0.0f;

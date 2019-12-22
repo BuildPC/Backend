@@ -49,13 +49,14 @@ class readExcelFileTest {
 
 
     @Test
-    public void frameCreationTest1(){
+    public void insertTDBTest(){
         test = new readExcelFile();
         File file = new File("/Users/denis/Desktop/Cs320v2/testimage.jpg");
         test.insertToDB(file);
 
     }
-    public void readd() throws IOException {
+    @Test
+    public void readTest() throws IOException {
         test = new readExcelFile();
         File file = new File("/Users/denis/Desktop/Cs320v2/ItemTable.xlsx");
         test.read(file);

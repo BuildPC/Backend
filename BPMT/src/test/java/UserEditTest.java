@@ -33,7 +33,7 @@ class UserEditTest {
 
 
     @Test
-    public void frameCreationTest1(){
+    public void closeButtonTest(){
         test = new UserEdit();
         test.closeButton.doClick();
     }

@@ -42,13 +42,13 @@ public class FrameTest {
     }
 
     @Test
-    public void frameCreationTest1(){
+    public void mainButtonTest(){
         frame = new Frame();
         frame.MainMenuButton.doClick();
     }
 
     @Test
-    public void frameCreationTest2(){
+    public void itemButtonTest(){
         frame = new Frame();
         frame.ItemButton.doClick();
     }

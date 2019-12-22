@@ -32,7 +32,7 @@ class ItemShowTest {
 
 
     @Test
-    public void frameCreationTest1(){
+    public void doneButtonTest(){
         show = new ItemShow();
         show.DoneButton.doClick();
     }
