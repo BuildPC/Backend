@@ -68,14 +68,16 @@ class SQLUtilitiesTest {
     void SRSBPPBPMT001dot3() throws SQLException {
         int tmp = SQLUtilities.currenid(frame.conn);
         test.AddItem("","",1,2.3f,1,frame.conn,"blob");
-        assertEquals(tmp,tmp);
+        int tmp2 = SQLUtilities.currenid(frame.conn);
+        assertEquals(tmp+1,tmp2);
     }
 
     @Test
     void SRSBPPBPMT001dot2() throws SQLException {
         int tmp = SQLUtilities.currenid(frame.conn);
         test.AddItem("test","testvalue",1,2.3f,1,frame.conn,"blob");
-        assertEquals(tmp,tmp);
+        int tmp2 = SQLUtilities.currenid(frame.conn);
+        assertEquals(tmp+1,tmp2);
     }
 
 
@@ -91,14 +93,14 @@ class SQLUtilitiesTest {
         ArrayList<ArrayList<String>> b = new ArrayList<>();
         a.add("asdfsadf,2222,wefa,asfdsa,/Users/denis/Desktop/Cs320v2/testimage.jpg,2222");
         b.add(a);
-        File file = new File("/Users/denis/Desktop/Cs320v2/ItemTable.xlsx");
+        File file = new File("/Users/denis/Desktop/Cs320v2/test1.xlsx");
 
         test.uploadImageWithStartID(readExcelFile.read(file),1);
     }
 
     @Test
     void addbatch() throws IOException {
-        File file = new File("/Users/denis/Desktop/Cs320v2/ItemTable.xlsx");
+        File file = new File("/Users/denis/Desktop/Cs320v2/test1.xlsx");
         test.AddItemBatch(readExcelFile.read(file),1);
     }
 

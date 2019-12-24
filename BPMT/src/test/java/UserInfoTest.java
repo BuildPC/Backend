@@ -31,18 +31,9 @@ class UserInfoTest {
 
 
 
-    @Test
-    public void exportrowsButton(){
-        test = new UserInfo();
-        test.Export_Rows.doClick();
-    }
 
-    @Test
-    public void refreshButton (){
-        //nead db conn
-        test = new UserInfo();
-       // test.RefreshUser.doClick();
-    }
+
+
 
 
 

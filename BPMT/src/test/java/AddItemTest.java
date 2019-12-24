@@ -128,12 +128,7 @@ public class AddItemTest {
         assertEquals(8,tmp);
     }
 
-    @Test
-    public void addItemAddbuttonTest(){
-        //nead sql conn
-        test = new AddItem();
-        test.AddButton.doClick();
-    }
+
 
     @Test
     public void additemuploadButtonTest(){

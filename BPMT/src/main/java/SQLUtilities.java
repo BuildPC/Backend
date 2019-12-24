@@ -82,29 +82,7 @@ public class SQLUtilities {
         }
     }
 
-    public static void getUsers(Connection conn) {
 
-        String sql = "SELECT email,name FROM users";
-
-        try {
-            PreparedStatement getUsers = conn.prepareStatement(sql);
-
-            getUsersSet = getUsers.executeQuery();
-
-            while (getUsersSet.next()) {
-                String username = getUsersSet.getString("email");
-                String fname = getUsersSet.getString("name");
-
-            }
-            //  Frame.UserTable.setModel(DbUtils.resultSetToTableModel(getUsersSet));
-
-        } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        }
-
-    }
 
     public static void getUserData(Connection conn, String username) {
 
@@ -278,7 +256,7 @@ public class SQLUtilities {
                 System.out.println("beofre copy");
                 System.out.println("file.path = " + file.toPath());
                 System.out.println("renfile.topath =" + renFile.getPath());
-                Files.copy(file.toPath(), renFile.toPath());
+
                 System.out.println("after copy");
 
                 String path = "/Volumes/GoogleDrive/My Drive/NetBeansProjects/TestProject320cs/ssh_key.txt";
@@ -296,7 +274,7 @@ public class SQLUtilities {
 
                 Session session = SendFile.createSession(user, host, port, path, keyPassword);
                 SendFile.copyLocalToRemote(session, local, remoteB, fileName);
-                renFile.delete();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
